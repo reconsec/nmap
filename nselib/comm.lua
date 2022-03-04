@@ -174,6 +174,15 @@ end
 -- @return Best option ("tcp" or "ssl")
 -- @return Worst option ("tcp" or "ssl")
 local function bestoption(port)
+
+  -- Check if ssl script arg is set
+  local args = nmap.registry.args
+  if args then
+    if args["ssl"] then
+      return "ssl","tcp" 
+    end
+  end
+
   if type(port) == 'table' then
     if port.protocol == "udp" then
       stdnse.debug2("DTLS (SSL over UDP) is not supported")
